@@ -39,6 +39,7 @@ import org.example.project.UI.CustomSideDrawer
 import org.example.project.UI.CustomTopBar
 import org.example.project.UI.CustomTopBarWithActions
 import org.example.project.UI.DrawerContent
+import org.example.project.UI.DrawerContentSample
 import org.example.project.UI.rememberDrawerState
 import org.example.project.resources.themes.DarkColors
 import org.example.project.resources.themes.LightColors
@@ -53,7 +54,7 @@ fun App() {
 //        List(50) { index -> "Элемент списка №${index + 1}" }
 //    }
     var selectedScreen by remember { mutableStateOf(0) }
-    val screens = listOf("Простая страница", "Список", "Анимация")
+    val screens = listOf("", "", "")
 
     val drawerState = rememberDrawerState()
 
@@ -62,30 +63,31 @@ fun App() {
         CustomSideDrawer(
             drawerState = drawerState,
             drawerContent = {
-                DrawerContent(drawerState)
+//                DrawerContent(drawerState)
+                DrawerContentSample()
             }
         ) {
 
             Scaffold(
-                topBar = {
-                    CustomTopBarWithActions(
-                        when (selectedScreen) {
-                            0 -> "Кастомный топбар"
-                            1 -> "Список"
-                            2 -> "Анимация"
-                            else -> "Приложение"
-                        },
-                        onBackClick = {
-                            drawerState.open()
-                        },
-                        actionIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Favorite,
-                                contentDescription = "",
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    )
+//                topBar = {
+//                    CustomTopBarWithActions(
+//                        when (selectedScreen) {
+//                            0 -> "Кастомный топбар"
+//                            1 -> "Список"
+//                            2 -> "Анимация"
+//                            else -> "Приложение"
+//                        },
+//                        onBackClick = {
+//                            drawerState.open()
+//                        },
+//                        actionIcon = {
+//                            Icon(
+//                                imageVector = Icons.Default.Favorite,
+//                                contentDescription = "",
+//                                tint = MaterialTheme.colorScheme.onSurface
+//                            )
+//                        }
+//                    )
 
 //            CustomTopBar(
 //                title = "Кастомный тулбар",
@@ -100,7 +102,7 @@ fun App() {
 //                    title = "Анимированный TopBar",
 //                    scrollState = scrollState
 //                )
-                },
+//                },
                 bottomBar = {
                     NavigationBar {
                         screens.forEachIndexed { index, screen ->
