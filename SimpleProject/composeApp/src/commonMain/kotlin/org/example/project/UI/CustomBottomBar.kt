@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +33,7 @@ import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,7 +62,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.errorLight
 import com.example.compose.onPrimaryContainerLight
+import com.example.compose.onPrimaryLight
+import com.example.compose.onSecondaryContainerLight
 import com.example.compose.onSurfaceVariantLight
 import com.example.compose.primaryContainerLight
 import com.example.compose.surfaceLight
@@ -192,14 +197,18 @@ fun FloatingRoundedBottomBar(
     currentRoute: String,
     onItemSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-    elevation: Dp = 8.dp,
+    backgroundColor: Color = Color.LightGray.copy(alpha = 0.95f),
+    selectedColor: Color = Color.Yellow.copy(alpha = 0.8f),
+    elevation: Dp = 16.dp,
     cornerRadius: Dp = 16.dp
 ) {
 
     Box(
         modifier = modifier
-            .fillMaxWidth().background(Color.LightGray).navigationBarsPadding().padding(horizontal = 16.dp, vertical = 12.dp)
+            .fillMaxWidth()
+            .background(Color.Transparent)
+            .navigationBarsPadding()
+            .padding(horizontal = 24.dp, vertical = 18.dp)
     ) {
         Card(
             modifier = Modifier
@@ -207,57 +216,64 @@ fun FloatingRoundedBottomBar(
                 .height(70.dp)
                 .shadow(
                     elevation = elevation,
-                    shape = RoundedCornerShape(
-                        topStart = cornerRadius,
-                        topEnd = cornerRadius,
-                        bottomStart = cornerRadius,
-                        bottomEnd = cornerRadius
-                    ),
-                    clip = true
+                    shape = RoundedCornerShape(cornerRadius),
+                    clip = true,
                 ),
-            shape = RoundedCornerShape(
-                topStart = cornerRadius,
-                topEnd = cornerRadius,
-                bottomStart = cornerRadius,
-                bottomEnd = cornerRadius
-            ),
+            shape = RoundedCornerShape(cornerRadius),
             colors = CardDefaults.cardColors(
                 containerColor = backgroundColor,
-                contentColor = MaterialTheme.colorScheme.onSurface
+                contentColor = Color.White
             )
         ) {
             NavigationBar(
                 containerColor = Color.Transparent,
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = cornerRadius,
-                            topEnd = cornerRadius,
-                            bottomStart = cornerRadius,
-                            bottomEnd = cornerRadius
-                        )
-                    )
-            ){
+                    .background(backgroundColor)
+                    .clip(RoundedCornerShape(cornerRadius))
+            ) {
                 items.forEach { item ->
                     val selected = currentRoute == item.route
+
+                    // Создаем кастомный стиль для NavigationBarItem
                     NavigationBarItem(
                         selected = selected,
                         onClick = { onItemSelected(item.route) },
                         icon = {
-                            Icon(
-                                imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
-                                contentDescription = item.title
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(85.dp)
+                                    .background(
+                                        if (selected) selectedColor else Color.Transparent,
+                                        RoundedCornerShape(20.dp)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
+                                        contentDescription = item.title
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = item.title,
+                                        fontSize = 12.sp
+                                    )
+                                }
+                            }
                         },
-                        label = { Text(item.title) },
+                        label = { }, // Пустой лейбл, так как текст уже внутри иконки
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-                        )
+                            selectedIconColor = Color.Black,
+                            selectedTextColor = Color.Black,
+                            unselectedIconColor = Color.White,
+                            unselectedTextColor = Color.White,
+                            indicatorColor = Color.Transparent // Отключаем стандартный индикатор
+                        ),
+                        modifier = Modifier.background(Color.Transparent).padding(top=7.dp)
                     )
                 }
             }
