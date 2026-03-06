@@ -1,63 +1,39 @@
 package org.example.project
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Animation
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ListAlt
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Animation
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.ListAlt
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import org.example.project.Screens.AnimationsScreen
+import org.example.project.Screens.Coruntines.CorutinesScreen
 import org.example.project.Screens.SimpleScreen
 import org.example.project.Screens.listScreen
-import org.example.project.UI.AnimatedTopBar
 import org.example.project.UI.BottomBarItem
-import org.example.project.UI.CustomBottomBar
 import org.example.project.UI.CustomSideDrawer
-import org.example.project.UI.CustomTopBar
-import org.example.project.UI.CustomTopBarWithActions
-import org.example.project.UI.DrawerContent
 import org.example.project.UI.DrawerContentSample
-import org.example.project.UI.FancyWavyBottomBar
 import org.example.project.UI.FloatingRoundedBottomBar
-import org.example.project.UI.RoundedCornerShapeBottomBar
-import org.example.project.UI.WavyBottomBar
 import org.example.project.UI.WavyBottomBarItem
 import org.example.project.UI.rememberDrawerState
 import org.example.project.resources.themes.DarkColors
@@ -100,16 +76,22 @@ fun App() {
             route = "home"
         ),
         BottomBarItem(
-            title = "Поиск",
-            selectedIcon = Icons.Filled.Search,
-            unselectedIcon = Icons.Outlined.Search,
-            route = "search"
+            title = "Список",
+            selectedIcon = Icons.Filled.ListAlt,
+            unselectedIcon = Icons.Outlined.ListAlt,
+            route = "list"
         ),
         BottomBarItem(
-            title = "Настройки",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-            route = "settings"
+            title = "Анимации",
+            selectedIcon = Icons.Filled.Animation,
+            unselectedIcon = Icons.Outlined.Animation,
+            route = "animation"
+        ),
+        BottomBarItem(
+            title = "Коррунтины",
+            selectedIcon = Icons.Filled.Edit,
+            unselectedIcon = Icons.Outlined.Edit,
+            route = "corutines"
         ),
     )
     var currentRoute by rememberSaveable { mutableStateOf("home") }
@@ -240,8 +222,9 @@ fun App() {
                     ) {
                         when (currentRoute) {
                             "home" -> SimpleScreen()
-                            "search" -> listScreen()
-                            "settings" -> AnimationsScreen()
+                            "list" -> listScreen()
+                            "animation" -> AnimationsScreen()
+                            "corutines"->CorutinesScreen()
                             else -> SimpleScreen()
                         }
 
@@ -251,7 +234,7 @@ fun App() {
                             onItemSelected = { currentRoute = it },
                             modifier = Modifier
                                 .align(Alignment.BottomCenter),
-                            backgroundColor = Color.Black
+                            selectedColor = Color.White
                         )
                     }
 

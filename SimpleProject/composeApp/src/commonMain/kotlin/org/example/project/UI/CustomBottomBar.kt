@@ -59,6 +59,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -200,7 +202,7 @@ fun FloatingRoundedBottomBar(
     backgroundColor: Color = Color.LightGray.copy(alpha = 0.95f),
     selectedColor: Color = Color.Yellow.copy(alpha = 0.8f),
     elevation: Dp = 16.dp,
-    cornerRadius: Dp = 16.dp
+    cornerRadius: Dp = 32.dp
 ) {
 
     Box(
@@ -214,11 +216,12 @@ fun FloatingRoundedBottomBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .shadow(
-                    elevation = elevation,
-                    shape = RoundedCornerShape(cornerRadius),
-                    clip = true,
-                ),
+//                .shadow(
+//                    elevation = elevation,
+//                    shape = RoundedCornerShape(cornerRadius),
+//                    clip = true,
+//                ),
+                    ,
             shape = RoundedCornerShape(cornerRadius),
             colors = CardDefaults.cardColors(
                 containerColor = backgroundColor,
@@ -242,10 +245,10 @@ fun FloatingRoundedBottomBar(
                         icon = {
                             Box(
                                 modifier = Modifier
-                                    .size(85.dp)
+                                    .fillMaxSize()
                                     .background(
                                         if (selected) selectedColor else Color.Transparent,
-                                        RoundedCornerShape(20.dp)
+                                        RoundedCornerShape(cornerRadius)
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -260,7 +263,9 @@ fun FloatingRoundedBottomBar(
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
                                         text = item.title,
-                                        fontSize = 12.sp
+                                        fontSize = 12.sp,
+                                        textDecoration = TextDecoration.LineThrough,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             }
@@ -273,7 +278,7 @@ fun FloatingRoundedBottomBar(
                             unselectedTextColor = Color.White,
                             indicatorColor = Color.Transparent // Отключаем стандартный индикатор
                         ),
-                        modifier = Modifier.background(Color.Transparent).padding(top=7.dp)
+                        modifier = Modifier.padding(top=7.dp).background(Color.Transparent)
                     )
                 }
             }
