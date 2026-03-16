@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.svgicon)
 }
 
 kotlin {
@@ -57,17 +58,19 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(compose.materialIconsExtended)
 
-            // HTTP клиент
-            implementation("io.ktor:ktor-client-core:2.3.7")
-            implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
 
-            // JSON сериализация
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-            // Coil для загрузки изображений
+//            // HTTP клиент
+//            implementation("io.ktor:ktor-client-core:2.3.7")
+//            implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
+//            implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+//
+//            // JSON сериализация
+//            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+//
+//            // Coil для загрузки изображений
             implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
-
+            implementation("io.github.fuyuz.svgicon:runtime:0.1.0")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
         }
