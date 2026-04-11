@@ -1,10 +1,28 @@
 package org.example.project.Demo
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,12 +49,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -47,6 +72,7 @@ import org.example.project.resources.colors.Blue
 import org.example.project.resources.colors.DarkBlue
 import org.example.project.resources.colors.DarkOrange
 import org.example.project.resources.colors.Orange
+import org.jetbrains.compose.resources.painterResource
 
 //bottombar
 
@@ -93,6 +119,130 @@ fun DemoBottomBar(
         }
     }
 }
+
+//smooth
+data class SmoothBottomNavItem(
+    val title: String,
+    val selectedIcon: Svg,
+    val unselectedIcon: Svg,
+    val route: String
+)
+// Цвета навбара
+private val NavBarBackground = Color(0xFF3D35C8)
+private val NavItemActiveBackground = Color(0xFF5548D9)
+private val NavItemActiveContent = Color.White
+private val NavItemInactiveContent = Color(0xFF8B85E8)
+@Composable
+fun SmoothBottomNavBar(
+    items: List<SmoothBottomNavItem>,
+    currentRoute: String,
+    onItemSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .shadow(
+                elevation = 20.dp,
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                ambientColor = NavBarBackground.copy(alpha = 0.4f),
+                spotColor = NavBarBackground.copy(alpha = 0.4f)
+            )
+            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+            .background(NavBarBackground)
+            .padding(horizontal = 12.dp, vertical = 12.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEach { item ->
+                SmoothNavItem(
+                    item = item,
+                    isSelected = currentRoute == item.route,
+                    onClick = { onItemSelected(item.route) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SmoothNavItem(
+    item: SmoothBottomNavItem,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    // Анимация ширины — активный элемент расширяется
+    val itemWidth by animateDpAsState(
+        targetValue = if (isSelected) 130.dp else 52.dp,
+        animationSpec = tween(durationMillis = 350),
+        label = "itemWidth"
+    )
+
+    // Анимация фона
+    val backgroundAlpha by animateFloatAsState(
+        targetValue = if (isSelected) 1f else 0f,
+        animationSpec = tween(durationMillis = 350),
+        label = "bgAlpha"
+    )
+
+    // Анимация цвета иконки
+    val iconTint by animateColorAsState(
+        targetValue = if (isSelected) NavItemActiveContent else NavItemInactiveContent,
+        animationSpec = tween(durationMillis = 350),
+        label = "iconTint"
+    )
+
+    // Анимация появления текста
+    val textAlpha by animateFloatAsState(
+        targetValue = if (isSelected) 1f else 0f,
+        animationSpec = tween(durationMillis = if (isSelected) 250 else 100, delayMillis = if (isSelected) 150 else 0),
+        label = "textAlpha"
+    )
+
+    Box(
+        modifier = Modifier
+            .width(itemWidth)
+            .height(52.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(NavItemActiveBackground.copy(alpha = backgroundAlpha))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(horizontal = 12.dp)
+        ) {
+            SvgIcon(
+                svg = if (isSelected) item.selectedIcon else item.unselectedIcon,
+                contentDescription = item.title,
+                tint = Color.Gray,
+                modifier = Modifier.size(30.dp),
+            )
+
+            // Текст появляется только у активного элемента
+            if (textAlpha > 0f) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = item.title,
+                    color = NavItemActiveContent,
+                    fontSize = 14.sp,
+                    maxLines = 1,
+                    modifier = Modifier.graphicsLayer{ alpha = textAlpha }
+                )
+            }
+        }
+    }
+}
+
+
 
 //кнопки
 object ButtonStyles {

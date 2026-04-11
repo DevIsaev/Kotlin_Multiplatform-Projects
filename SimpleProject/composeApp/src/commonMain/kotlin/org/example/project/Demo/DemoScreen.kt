@@ -53,13 +53,53 @@ fun DemoScreen() {
             route = "Parser"
         )
     )
+    val smothbottomElements = listOf(
+        SmoothBottomNavItem(
+            title = "Кнопки",
+            selectedIcon = SimpleProject.icons.Icons.Home,
+            unselectedIcon = SimpleProject.icons.Icons.Home,
+            route = "Buttons"
+        ),
+        SmoothBottomNavItem(
+            title = "Расписание",
+            selectedIcon = SimpleProject.icons.Icons.Calendar,
+            unselectedIcon = SimpleProject.icons.Icons.Calendar,
+            route = "List",
+        ),
+        SmoothBottomNavItem(
+            title = "Новости",
+            selectedIcon = SimpleProject.icons.Icons.Info,
+            unselectedIcon = SimpleProject.icons.Icons.Info,
+            route = "News"
+        ),
+        SmoothBottomNavItem(
+            title = "Настройки",
+            selectedIcon = SimpleProject.icons.Icons.Settings,
+            unselectedIcon = SimpleProject.icons.Icons.Settings,
+            route = "Settings"
+        ),
+        SmoothBottomNavItem(
+            title = "Парсер",
+            selectedIcon = SimpleProject.icons.Icons.Darhboard,
+            unselectedIcon = SimpleProject.icons.Icons.Darhboard,
+            route = "Parser"
+        )
+    )
+
     var currentRoute by rememberSaveable { mutableStateOf("Buttons") }
+
 
     MaterialTheme {
         Scaffold(
             bottomBar = {
-                DemoBottomBar(
-                    items = bottomElements,
+//                DemoBottomBar(
+//                    items = bottomElements,
+//                    currentRoute = currentRoute,
+//                    onItemSelected = { route -> currentRoute = route }
+//                )
+
+                SmoothBottomNavBar(
+                    items = smothbottomElements,
                     currentRoute = currentRoute,
                     onItemSelected = { route -> currentRoute = route }
                 )
