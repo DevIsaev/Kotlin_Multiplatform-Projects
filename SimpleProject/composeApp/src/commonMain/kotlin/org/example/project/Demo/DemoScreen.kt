@@ -4,16 +4,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import org.example.project.Screens.HTMLparser.HTMLparser
 import org.example.project.resources.themes.DarkColors
 import org.example.project.resources.themes.LightColors
 
@@ -46,6 +45,12 @@ fun DemoScreen() {
             selectedIcon = SimpleProject.icons.Icons.Settings,
             unselectedIcon = SimpleProject.icons.Icons.Settings,
             route = "Settings"
+        ),
+        BottomBarItem(
+            title = "Парсер",
+            selectedIcon = SimpleProject.icons.Icons.Darhboard,
+            unselectedIcon = SimpleProject.icons.Icons.Darhboard,
+            route = "Parser"
         )
     )
     var currentRoute by rememberSaveable { mutableStateOf("Buttons") }
@@ -71,6 +76,7 @@ fun DemoScreen() {
                         "Settings" -> demoSettings()
                         "News" -> demoNews()
                         "List" -> demoList()
+                        "Parser" -> HTMLparser()
                         else -> buttonDemo()
                     }
             }

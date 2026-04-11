@@ -1,25 +1,27 @@
 package org.example.project.Demo
 
 import SimpleProject.icons.Icons
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import io.github.fuyuz.svgicon.SvgIcon
-import org.example.project.resources.fonts.Fonts.Zapussans
+import org.example.project.resources.colors.Success
+
 
 @Composable
 fun buttonDemo(){
@@ -35,6 +37,7 @@ fun buttonDemo(){
         modifier = Modifier.padding(20.dp).verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        //кнопки
         // Большие кнопки
         Text("LARGE размер")
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -149,15 +152,84 @@ fun buttonDemo(){
             )
         }
 
-        // Можно также переопределить отдельные параметры
-//        Text("Кастомные параметры")
-//        ButtonStyles.DarkBlueButton(
-//            text = "Своя высота",
-//            onClick = { },
-//            size = ButtonSize.NORMAL,
-//            height = 60.dp, // Переопределяем высоту
-//            width = 200.dp,  // Задаем ширину
-//            fontSize = 18.sp // Переопределяем размер шрифта
-//        )
+        //текстовые поля
+
+        var login by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var phone by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp).background(Success),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Row(){
+                Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    // Поле логина
+                    DemoTextField(
+                        placeholderText = "Логин*",
+                        cornerRadius = 28.dp,
+                        height = 50.dp,
+                        width = 250.dp
+                    ).Create(
+                        value = login,
+                        onValueChange = { login = it }
+                    )
+
+                    // Поле почты
+                    DemoTextField(
+                        placeholderText = "Почта*",
+                        cornerRadius = 28.dp,
+                        height = 50.dp,
+                        width = 250.dp,
+                        keyboardType = KeyboardType.Email
+                    ).Create(
+                        value = email,
+                        onValueChange = { email = it }
+                    )
+
+                    // Поле телефона
+                    DemoTextField(
+                        placeholderText = "Номер телефона*",
+                        cornerRadius = 28.dp,
+                        height = 50.dp,
+                        width = 250.dp,
+                        keyboardType = KeyboardType.Phone
+                    ).Create(
+                        value = phone,
+                        onValueChange = { phone = it }
+                    )
+
+                    // Поле пароля
+                    DemoTextField(
+                        placeholderText = "Пароль*",
+                        cornerRadius = 28.dp,
+                        height = 50.dp,
+                        width = 250.dp,
+                        isPassword = true
+                    ).Create(
+                        value = password,
+                        onValueChange = { password = it }
+                    )
+                    // Использование с Builder-паттерном
+                    var password1 by remember { mutableStateOf("") }
+
+                    CustomTextFieldBuilder()
+                        .placeholder("Пароль*")
+                        .cornerRadius(28.dp)
+                        .height(50.dp)
+                        .width(250.dp)
+                        .asPassword()
+                        .build()
+                        .Create(
+                            value = password1,
+                            onValueChange = { password1 = it }
+                        )
+                }
+
+                //стикер
+
+            }
+        }
     }
 }

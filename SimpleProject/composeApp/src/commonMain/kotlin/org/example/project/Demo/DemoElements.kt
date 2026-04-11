@@ -3,24 +3,40 @@ package org.example.project.Demo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -220,7 +236,6 @@ enum class ButtonSize(
     TINY(height = 28.dp, fontSize = 12.sp, horizontalPadding = 16.dp, cornerRadius = 14.dp)
 }
 
-
 @Composable
 fun DemoButton(
     text: String = "",
@@ -295,4 +310,134 @@ fun DemoButton(
             }
         }
     }
+}
+
+
+//текстовое поле с настраиваемыми параметрами
+class DemoTextField(
+    private val placeholderText: String,
+    private val cornerRadius: Dp = 14.dp,
+    private val height: Dp = 28.dp,
+    private val width: Dp? = null,
+    private val isPassword: Boolean = false,
+    private val keyboardType: KeyboardType = KeyboardType.Text
+) {
+
+    @Composable
+    fun Create(
+        value: String,
+        onValueChange: (String) -> Unit,
+        modifier: Modifier = Modifier,
+        enabled: Boolean = true,
+        singleLine: Boolean = true,
+        leadingIcon: @Composable (() -> Unit)? = null,
+        trailingIcon: @Composable (() -> Unit)? = null,
+        colors: TextFieldColors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+        )
+    ) {
+        var passwordVisible by remember { mutableStateOf(false) }
+
+        val finalModifier = if (width != null) {
+            modifier
+                .width(width)
+                .height(height)
+        } else {
+            modifier
+                .fillMaxWidth()
+                .height(height)
+        }
+
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = finalModifier,
+            enabled = enabled,
+            singleLine = singleLine,
+            placeholder = {
+                Text(
+                    text = placeholderText,
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            },
+            leadingIcon = leadingIcon,
+            trailingIcon = {
+                if (isPassword) {
+                    PasswordVisibilityIcon(
+                        passwordVisible = passwordVisible,
+                        onToggle = { passwordVisible = !passwordVisible }
+                    )
+                } else {
+                    trailingIcon?.invoke()
+                }
+            },
+            visualTransformation = if (isPassword && !passwordVisible) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = if (isPassword) KeyboardType.Password else keyboardType
+            ),
+            colors = colors,
+            shape = RoundedCornerShape(cornerRadius)
+        )
+    }
+
+    @Composable
+    private fun PasswordVisibilityIcon(
+        passwordVisible: Boolean,
+        onToggle: () -> Unit
+    ) {
+        IconButton(onClick = onToggle) {
+            Icon(
+                imageVector = if (passwordVisible) {
+                    Icons.Filled.Visibility
+                } else {
+                    Icons.Filled.VisibilityOff
+                },
+                contentDescription = if (passwordVisible) {
+                    "Скрыть пароль"
+                } else {
+                    "Показать пароль"
+                },
+                tint = Color.Gray
+            )
+        }
+    }
+}
+
+// Builder-паттерн для более удобного создания
+class CustomTextFieldBuilder {
+    private var placeholderText: String = ""
+    private var cornerRadius: Dp = 28.dp
+    private var height: Dp = 56.dp
+    private var width: Dp? = null
+    private var isPassword: Boolean = false
+    private var keyboardType: KeyboardType = KeyboardType.Text
+
+    fun placeholder(text: String) = apply { this.placeholderText = text }
+    fun cornerRadius(radius: Dp) = apply { this.cornerRadius = radius }
+    fun height(height: Dp) = apply { this.height = height }
+    fun width(width: Dp) = apply { this.width = width }
+    fun asPassword() = apply {
+        this.isPassword = true
+        this.keyboardType = KeyboardType.Password
+    }
+    fun keyboardType(type: KeyboardType) = apply { this.keyboardType = type }
+
+    fun build() = DemoTextField(
+        placeholderText = placeholderText,
+        cornerRadius = cornerRadius,
+        height = height,
+        width = width,
+        isPassword = isPassword,
+        keyboardType = keyboardType
+    )
 }

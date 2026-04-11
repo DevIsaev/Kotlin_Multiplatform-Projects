@@ -6,7 +6,7 @@ import androidx.compose.ui.window.application
 
 fun main() = application {
     Window(
-        resizable = false,
+//        resizable = false,
         onCloseRequest = ::exitApplication,
         title = "SimpleProject",
     ) {

@@ -17,7 +17,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -42,9 +42,22 @@ kotlin {
     }
     
     sourceSets {
+        val commonMain by getting {
+            resources.srcDirs("src/commonMain/resources")
+
+        }
+
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+
+            implementation("androidx.media3:media3-exoplayer:1.3.1")
+            implementation("androidx.media3:media3-ui:1.3.1")
+
+            implementation("io.coil-kt:coil-compose:2.7.0")
+            implementation("io.coil-kt:coil-video:2.7.0")
+
+            implementation("io.ktor:ktor-client-okhttp:2.3.12")
         }
         commonMain.dependencies {
             implementation(compose.components.resources)
@@ -57,7 +70,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(compose.materialIconsExtended)
-
 
 
 //            // HTTP клиент
@@ -73,6 +85,15 @@ kotlin {
             implementation("io.github.fuyuz.svgicon:runtime:0.1.0")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+            // For parsing HTML
+            implementation("com.mohamedrejeb.ksoup:ksoup-html:0.6.0")
+// Only for encoding and decoding HTML entities
+            implementation("com.mohamedrejeb.ksoup:ksoup-entities:0.6.0")
+            // HTTP-клиент (KMP)
+            implementation("io.ktor:ktor-client-core:2.3.12")
+            implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -80,6 +101,13 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+
+            implementation("uk.co.caprica:vlcj:4.8.2")
+
+            implementation("org.bytedeco:javacv-platform:1.5.9")
+            implementation("org.bytedeco:ffmpeg-platform:6.0-1.5.9")
+
+            implementation("io.ktor:ktor-client-okhttp:2.3.12")
         }
     }
 }
@@ -125,4 +153,9 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+compose.resources{
+    publicResClass = true
+    packageOfResClass = "org.example.project.resources"
+    generateResClass = always
 }

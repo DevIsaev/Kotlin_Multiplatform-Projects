@@ -4,9 +4,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import org.example.project.resources.Res
+import org.example.project.resources.cimeropro
+import org.example.project.resources.consolamono_bold
+import org.example.project.resources.montserrat_bold
+import org.example.project.resources.montserrat_extrabold
+import org.example.project.resources.montserrat_italic
+import org.example.project.resources.montserrat_light
+import org.example.project.resources.montserrat_medium
+import org.example.project.resources.montserrat_regular
+import org.example.project.resources.montserrat_semibold
+import org.example.project.resources.zapussans_medium
+import org.example.project.resources.zapussans_regular
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
-import simpleproject.composeapp.generated.resources.*
+
 
 object Fonts {
 

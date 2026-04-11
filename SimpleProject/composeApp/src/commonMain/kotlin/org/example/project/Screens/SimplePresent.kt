@@ -24,12 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.onPrimaryDark
+import org.example.project.resources.Res
+import org.example.project.resources.codMW2
 import org.example.project.resources.fonts.Fonts.Zapussans
 import org.example.project.resources.fonts.Fonts.consolamono
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.DrawableResource
-import simpleproject.composeapp.generated.resources.Res
-import simpleproject.composeapp.generated.resources.codMW2
+
 
 @Composable
 fun SimpleScreen(){
