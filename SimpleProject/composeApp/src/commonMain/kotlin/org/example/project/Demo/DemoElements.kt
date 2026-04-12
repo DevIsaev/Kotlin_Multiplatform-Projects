@@ -73,6 +73,9 @@ import org.example.project.resources.colors.DarkBlue
 import org.example.project.resources.colors.DarkOrange
 import org.example.project.resources.colors.Orange
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.text.style.TextOverflow
 
 //bottombar
 
@@ -142,6 +145,7 @@ fun SmoothBottomNavBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .navigationBarsPadding()
             .shadow(
                 elevation = 20.dp,
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
@@ -150,7 +154,7 @@ fun SmoothBottomNavBar(
             )
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
             .background(NavBarBackground)
-            .padding(horizontal = 12.dp, vertical = 12.dp)
+            .padding(horizontal = 8.dp, vertical = 6.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -176,7 +180,7 @@ private fun SmoothNavItem(
 ) {
     // Анимация ширины — активный элемент расширяется
     val itemWidth by animateDpAsState(
-        targetValue = if (isSelected) 130.dp else 52.dp,
+        targetValue = if (isSelected) 110.dp else 44.dp,
         animationSpec = tween(durationMillis = 350),
         label = "itemWidth"
     )
@@ -205,7 +209,7 @@ private fun SmoothNavItem(
     Box(
         modifier = Modifier
             .width(itemWidth)
-            .height(52.dp)
+            .height(44.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(NavItemActiveBackground.copy(alpha = backgroundAlpha))
             .clickable(
@@ -218,13 +222,13 @@ private fun SmoothNavItem(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             SvgIcon(
                 svg = if (isSelected) item.selectedIcon else item.unselectedIcon,
                 contentDescription = item.title,
                 tint = Color.Gray,
-                modifier = Modifier.size(30.dp),
+                modifier = Modifier.size(21.dp),
             )
 
             // Текст появляется только у активного элемента
@@ -233,9 +237,15 @@ private fun SmoothNavItem(
                 Text(
                     text = item.title,
                     color = NavItemActiveContent,
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = (-0.2).sp,
                     maxLines = 1,
-                    modifier = Modifier.graphicsLayer{ alpha = textAlpha }
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .widthIn(max = 60.dp)
+                        .graphicsLayer { alpha = textAlpha }
                 )
             }
         }

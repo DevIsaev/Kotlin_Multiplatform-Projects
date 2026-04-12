@@ -1,58 +1,21 @@
 package org.example.project.Demo
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import org.example.project.Screens.HTMLparser.HTMLparser
 import org.example.project.resources.themes.DarkColors
 import org.example.project.resources.themes.LightColors
-
 
 @Composable
 fun DemoScreen() {
     val colors = if (isSystemInDarkTheme()) DarkColors else LightColors
 
-    val bottomElements = listOf(
-        BottomBarItem(
-            title = "Кнопки",
-            selectedIcon = SimpleProject.icons.Icons.Home,
-            unselectedIcon = SimpleProject.icons.Icons.Home,
-            route = "Buttons"
-        ),
-        BottomBarItem(
-            title = "Расписание",
-            selectedIcon = SimpleProject.icons.Icons.Calendar,
-            unselectedIcon = SimpleProject.icons.Icons.Calendar,
-            route = "List"
-        ),
-        BottomBarItem(
-            title = "Новости",
-            selectedIcon = SimpleProject.icons.Icons.Info,
-            unselectedIcon = SimpleProject.icons.Icons.Info,
-            route = "News"
-        ),
-        BottomBarItem(
-            title = "Настройки",
-            selectedIcon = SimpleProject.icons.Icons.Settings,
-            unselectedIcon = SimpleProject.icons.Icons.Settings,
-            route = "Settings"
-        ),
-        BottomBarItem(
-            title = "Парсер",
-            selectedIcon = SimpleProject.icons.Icons.Darhboard,
-            unselectedIcon = SimpleProject.icons.Icons.Darhboard,
-            route = "Parser"
-        )
-    )
     val smothbottomElements = listOf(
         SmoothBottomNavItem(
             title = "Кнопки",
@@ -88,40 +51,36 @@ fun DemoScreen() {
 
     var currentRoute by rememberSaveable { mutableStateOf("Buttons") }
 
-
     MaterialTheme {
-        Scaffold(
-            bottomBar = {
-//                DemoBottomBar(
-//                    items = bottomElements,
-//                    currentRoute = currentRoute,
-//                    onItemSelected = { route -> currentRoute = route }
-//                )
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
 
-                SmoothBottomNavBar(
-                    items = smothbottomElements,
-                    currentRoute = currentRoute,
-                    onItemSelected = { route -> currentRoute = route }
-                )
-            },
-            content = {
-                    paddingValues ->
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
-                ) {
-                    when (currentRoute) {
-                        "Buttons" -> buttonDemo()
-                        "Settings" -> demoSettings()
-                        "News" -> demoNews()
-                        "List" -> demoList()
-                        "Parser" -> HTMLparser()
-                        else -> buttonDemo()
-                    }
+            // ОСНОВНОЙ КОНТЕНТ
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 80.dp) //  чтобы контент не залезал под navbar
+            ) {
+                when (currentRoute) {
+                    "Buttons" -> buttonDemo()
+                    "Settings" -> demoSettings()
+                    "News" -> demoNews()
+                    "List" -> demoList()
+                    "Parser" -> HTMLparser()
+                    else -> buttonDemo()
+                }
             }
 
+
+            SmoothBottomNavBar(
+                items = smothbottomElements,
+                currentRoute = currentRoute,
+                onItemSelected = { currentRoute = it },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+//                    .padding(horizontal = 16.dp, vertical = 12.dp) // отступы от краёв
+            )
+        }
     }
-        )
-}
 }

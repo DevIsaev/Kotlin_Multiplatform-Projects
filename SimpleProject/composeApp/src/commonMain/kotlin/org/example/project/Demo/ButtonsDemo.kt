@@ -17,7 +17,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.example.project.resources.colors.Success
@@ -163,7 +162,6 @@ fun buttonDemo(){
             modifier = Modifier.fillMaxSize().padding(16.dp).background(Success),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row(){
                 Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     // Поле логина
                     DemoTextField(
@@ -226,10 +224,12 @@ fun buttonDemo(){
                             onValueChange = { password1 = it }
                         )
                 }
-
-                //стикер
-
-            }
+            //стикер
+            StickerFromResources(
+                fileName = "AnimatedSticker.tgs",
+                modifier = Modifier.size(150.dp),
+                loop = true
+            )
         }
     }
 }

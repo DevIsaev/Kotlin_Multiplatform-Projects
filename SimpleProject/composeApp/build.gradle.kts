@@ -51,13 +51,13 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
 
-            implementation("androidx.media3:media3-exoplayer:1.3.1")
-            implementation("androidx.media3:media3-ui:1.3.1")
-
             implementation("io.coil-kt:coil-compose:2.7.0")
             implementation("io.coil-kt:coil-video:2.7.0")
 
             implementation("io.ktor:ktor-client-okhttp:2.3.12")
+
+            implementation("com.airbnb.android:lottie-compose:6.3.0")
+            implementation("io.coil-kt:coil-compose:2.7.0")
         }
         commonMain.dependencies {
             implementation(compose.components.resources)
@@ -84,7 +84,7 @@ kotlin {
             implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
             implementation("io.github.fuyuz.svgicon:runtime:0.1.0")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
 
             // For parsing HTML
             implementation("com.mohamedrejeb.ksoup:ksoup-html:0.6.0")
@@ -93,6 +93,10 @@ kotlin {
             // HTTP-клиент (KMP)
             implementation("io.ktor:ktor-client-core:2.3.12")
             implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+
+            implementation("org.jetbrains.compose.runtime:runtime")
+            implementation("org.jetbrains.compose.foundation:foundation")
+            implementation("org.jetbrains.compose.material3:material3")
 
         }
         commonTest.dependencies {
@@ -108,6 +112,8 @@ kotlin {
             implementation("org.bytedeco:ffmpeg-platform:6.0-1.5.9")
 
             implementation("io.ktor:ktor-client-okhttp:2.3.12")
+
+            implementation("io.github.alexzhirkevich:compottie:2.0.0-beta01")
         }
     }
 }
