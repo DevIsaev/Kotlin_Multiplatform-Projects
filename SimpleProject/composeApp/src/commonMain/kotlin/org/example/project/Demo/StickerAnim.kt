@@ -19,10 +19,17 @@ expect fun TgsSticker(
     loop: Boolean = true
 )
 
+@Composable
+expect fun WebmSticker(
+    bytes: ByteArray,
+    modifier: Modifier = Modifier,
+    loop: Boolean = true
+)
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun StickerFromResources(
-    fileName: String,       // "AnimatedSticker.tgs" или "okak.webm"
+    fileName: String,
     modifier: Modifier = Modifier,
     size: Dp = 200.dp,
     loop: Boolean = true
@@ -34,10 +41,9 @@ fun StickerFromResources(
     }
 
     bytes?.let { data ->
-        TgsSticker(
-            bytes = data,
-            modifier = modifier,
-            loop = loop
-        )
+        when {
+            fileName.endsWith(".tgs") -> TgsSticker(data, modifier, loop)
+            fileName.endsWith(".webm") -> WebmSticker(data, modifier, loop)
+        }
     }
 }

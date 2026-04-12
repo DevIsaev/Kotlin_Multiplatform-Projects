@@ -230,6 +230,11 @@ fun buttonDemo(){
                 modifier = Modifier.size(150.dp),
                 loop = true
             )
+            StickerFromResources(
+                fileName = "okak.webm",
+                modifier = Modifier.size(150.dp),
+                loop = true
+            )
         }
     }
 }
