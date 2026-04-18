@@ -1,4 +1,4 @@
-package org.example.project.Demo
+package org.example.project.Demo.Buttons_and_Elements
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

@@ -14,8 +14,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(lightScrim = Color.Black.copy(alpha = 0.1f).toArgb(), darkScrim = Color.White.copy(alpha = 0.1f).toArgb()),
-            navigationBarStyle = SystemBarStyle.auto(Color.Transparent.toArgb(), Color.Transparent.toArgb())
+            statusBarStyle = SystemBarStyle.dark(
+                scrim = 0xFF124171.toInt()
+            ),
+            navigationBarStyle = SystemBarStyle.dark(
+                scrim = 0xFF3D35C8.toInt()
+            )
         )
         setContent {
             App()

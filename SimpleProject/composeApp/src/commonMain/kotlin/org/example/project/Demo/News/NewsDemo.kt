@@ -1,4 +1,4 @@
-package org.example.project.Demo
+package org.example.project.Demo.News
 
 import androidx.compose.runtime.Composable
 

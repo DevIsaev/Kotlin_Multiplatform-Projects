@@ -34,13 +34,7 @@ kotlin {
         browser()
         binaries.executable()
     }
-    
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
-    
+
     sourceSets {
         val commonMain by getting {
             resources.srcDirs("src/commonMain/resources")
@@ -73,7 +67,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(compose.materialIconsExtended)
-
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
 
 //            // HTTP клиент
 //            implementation("io.ktor:ktor-client-core:2.3.7")

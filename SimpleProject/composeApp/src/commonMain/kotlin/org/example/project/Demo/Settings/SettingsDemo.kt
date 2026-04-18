@@ -1,4 +1,4 @@
-package org.example.project.Demo
+package org.example.project.Demo.Settings
 
 import androidx.compose.runtime.Composable
 

@@ -1,5 +1,7 @@
 package org.example.project.Demo
 
+import SimpleProject.icons.Icons
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -8,48 +10,53 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.example.project.Demo.Buttons_and_Elements.SmoothBottomNavBar
+import org.example.project.Demo.Buttons_and_Elements.SmoothBottomNavItem
+import org.example.project.Demo.Buttons_and_Elements.buttonDemo
+import org.example.project.Demo.News.demoNews
+import org.example.project.Demo.Settings.demoSettings
+import org.example.project.Demo.Shedule.demoList
 import org.example.project.Screens.HTMLparser.HTMLparser
-import org.example.project.resources.themes.DarkColors
-import org.example.project.resources.themes.LightColors
+
+
 
 @Composable
 fun DemoScreen() {
-    val colors = if (isSystemInDarkTheme()) DarkColors else LightColors
-
     val smothbottomElements = listOf(
         SmoothBottomNavItem(
             title = "Кнопки",
-            selectedIcon = SimpleProject.icons.Icons.Home,
-            unselectedIcon = SimpleProject.icons.Icons.Home,
+            selectedIcon = Icons.Home,
+            unselectedIcon = Icons.Home,
             route = "Buttons"
         ),
         SmoothBottomNavItem(
             title = "Расписание",
-            selectedIcon = SimpleProject.icons.Icons.Calendar,
-            unselectedIcon = SimpleProject.icons.Icons.Calendar,
+            selectedIcon = Icons.Calendar,
+            unselectedIcon = Icons.Calendar,
             route = "List",
         ),
         SmoothBottomNavItem(
             title = "Новости",
-            selectedIcon = SimpleProject.icons.Icons.Info,
-            unselectedIcon = SimpleProject.icons.Icons.Info,
+            selectedIcon = Icons.Info,
+            unselectedIcon = Icons.Info,
             route = "News"
         ),
         SmoothBottomNavItem(
             title = "Настройки",
-            selectedIcon = SimpleProject.icons.Icons.Settings,
-            unselectedIcon = SimpleProject.icons.Icons.Settings,
+            selectedIcon = Icons.Settings,
+            unselectedIcon = Icons.Settings,
             route = "Settings"
         ),
         SmoothBottomNavItem(
             title = "Парсер",
-            selectedIcon = SimpleProject.icons.Icons.Darhboard,
-            unselectedIcon = SimpleProject.icons.Icons.Darhboard,
+            selectedIcon = Icons.Darhboard,
+            unselectedIcon = Icons.Darhboard,
             route = "Parser"
         )
     )
 
-    var currentRoute by rememberSaveable { mutableStateOf("Buttons") }
+    var currentRoute by rememberSaveable { mutableStateOf("List") }
+
 
     MaterialTheme {
         Box(
@@ -60,7 +67,8 @@ fun DemoScreen() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 80.dp) //  чтобы контент не залезал под navbar
+                    .padding(bottom = 80.dp)
+                    .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
             ) {
                 when (currentRoute) {
                     "Buttons" -> buttonDemo()
@@ -79,6 +87,7 @@ fun DemoScreen() {
                 onItemSelected = { currentRoute = it },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .windowInsetsPadding(WindowInsets.navigationBars)
 //                    .padding(horizontal = 16.dp, vertical = 12.dp) // отступы от краёв
             )
         }
