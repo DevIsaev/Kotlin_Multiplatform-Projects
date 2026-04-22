@@ -21,7 +21,10 @@ import org.example.project.Screens.HTMLparser.HTMLparser
 
 
 @Composable
-fun DemoScreen() {
+fun DemoScreen(
+    darkTheme: Boolean,
+    onThemeChange: (Boolean) -> Unit) {
+
     val smothbottomElements = listOf(
         SmoothBottomNavItem(
             title = "Кнопки",
@@ -58,7 +61,6 @@ fun DemoScreen() {
     var currentRoute by rememberSaveable { mutableStateOf("List") }
 
 
-    MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -72,7 +74,10 @@ fun DemoScreen() {
             ) {
                 when (currentRoute) {
                     "Buttons" -> buttonDemo()
-                    "Settings" -> demoSettings()
+                    "Settings" -> demoSettings(
+                        darkTheme = darkTheme,
+                        onThemeChange = onThemeChange
+                    )
                     "News" -> demoNews()
                     "List" -> demoList()
                     "Parser" -> HTMLparser()
@@ -91,5 +96,4 @@ fun DemoScreen() {
 //                    .padding(horizontal = 16.dp, vertical = 12.dp) // отступы от краёв
             )
         }
-    }
 }
