@@ -6,28 +6,14 @@ import kotlinx.datetime.LocalDate
 
 
 @Composable
-fun demoList(){
+fun demoList(shedule:WeekSchedule){
     //val schedule = previewSchedule
     //ScheduleV1(schedule)
     //ScheduleV2(schedule)
 
-    val monthSchedule: WeekSchedule by lazy {
-        WeekSchedule(
-            groupName = "Группа 210а",
-            even = generateDays(LocalDate(2026, 1, 1), 31),
-            odd  = emptyList()
-        )
-    }
 
-    val weekSchedule: WeekSchedule by lazy {
-        WeekSchedule(
-            groupName = "Группа 210а",
-            even = generateDays(LocalDate(2026, 1, 5), 7),
-            odd  = generateDays(LocalDate(2026, 1, 12), 7)
-        )
-    }
 
-    ScheduleV1(schedule = monthSchedule)
+    ScheduleV1(schedule = shedule)
     //ScheduleV2(schedule = weekSchedule)
 }
 

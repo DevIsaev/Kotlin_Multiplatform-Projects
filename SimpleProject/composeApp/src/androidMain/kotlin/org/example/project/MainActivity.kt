@@ -18,7 +18,8 @@ class MainActivity : ComponentActivity() {
                 scrim = 0xFF124171.toInt()
             ),
             navigationBarStyle = SystemBarStyle.dark(
-                scrim = 0xFF3D35C8.toInt()
+//                scrim = 0xFF3D35C8.toInt()
+                scrim = 0xFF124171.toInt()
             )
         )
         setContent {

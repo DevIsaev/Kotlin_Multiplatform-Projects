@@ -117,10 +117,13 @@ data class SmoothBottomNavItem(
     val route: String
 )
 // Цвета навбара
-private val NavBarBackground = Color(0xFF3D35C8)
-private val NavItemActiveBackground = Color(0xFF5548D9)
+//private val NavBarBackground = Color(0xFF3D35C8)
+private val NavBarBackground = Color(0xFF124171)
+//private val NavItemActiveBackground = Color(0xFF5548D9)
+private val NavItemActiveBackground = Color(0xFF219EBC)
 private val NavItemActiveContent = Color.White
-private val NavItemInactiveContent = Color(0xFF8B85E8)
+//private val NavItemInactiveContent = Color(0xFF8B85E8)
+private val NavItemInactiveContent = Color(0xFF8ECAE6)
 @Composable
 fun SmoothBottomNavBar(
     items: List<SmoothBottomNavItem>,
@@ -213,7 +216,7 @@ private fun SmoothNavItem(
             SvgIcon(
                 svg = if (isSelected) item.selectedIcon else item.unselectedIcon,
                 contentDescription = item.title,
-                tint = Color.Gray,
+                tint = Color.White,
                 modifier = Modifier.size(21.dp),
             )
 

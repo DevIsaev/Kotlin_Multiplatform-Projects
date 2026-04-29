@@ -95,6 +95,12 @@ kotlin {
             implementation("org.jetbrains.compose.foundation:foundation")
             implementation("org.jetbrains.compose.material3:material3")
 
+
+            // ViewModel для KMP
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+            // StateFlow уже в kotlinx-coroutines-core
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

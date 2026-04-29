@@ -10,12 +10,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.LocalDate
 import org.example.project.Demo.Buttons_and_Elements.SmoothBottomNavBar
 import org.example.project.Demo.Buttons_and_Elements.SmoothBottomNavItem
 import org.example.project.Demo.Buttons_and_Elements.buttonDemo
+import org.example.project.Demo.Map.MapDemo
 import org.example.project.Demo.News.demoNews
 import org.example.project.Demo.Settings.demoSettings
+import org.example.project.Demo.Shedule.ScheduleV1
+import org.example.project.Demo.Shedule.ScheduleV2
+import org.example.project.Demo.Shedule.WeekSchedule
 import org.example.project.Demo.Shedule.demoList
+import org.example.project.Demo.Shedule.generateDays
 import org.example.project.Screens.HTMLparser.HTMLparser
 
 
@@ -58,6 +64,23 @@ fun DemoScreen(
         )
     )
 
+    val monthSchedule: WeekSchedule by lazy {
+        WeekSchedule(
+            groupName = "Группа 210а",
+            even = generateDays(LocalDate(2026, 1, 1), 31),
+            odd  = emptyList()
+        )
+    }
+
+    val weekSchedule: WeekSchedule by lazy {
+        WeekSchedule(
+            groupName = "Группа 210а",
+            even = generateDays(LocalDate(2026, 1, 5), 7),
+            odd  = generateDays(LocalDate(2026, 1, 12), 7)
+        )
+    }
+
+
     var currentRoute by rememberSaveable { mutableStateOf("List") }
 
 
@@ -79,8 +102,10 @@ fun DemoScreen(
                         onThemeChange = onThemeChange
                     )
                     "News" -> demoNews()
-                    "List" -> demoList()
-                    "Parser" -> HTMLparser()
+                    "List" -> demoList(monthSchedule)
+//                    "Parser" -> HTMLparser()
+//                    "Parser" -> ScheduleV2(weekSchedule)
+                    "Parser" -> MapDemo()
                     else -> buttonDemo()
                 }
             }
