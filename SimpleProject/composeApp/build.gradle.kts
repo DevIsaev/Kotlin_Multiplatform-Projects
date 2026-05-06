@@ -69,6 +69,9 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
 
+            implementation("com.russhwolf:multiplatform-settings:1.2.0")
+            implementation("com.russhwolf:multiplatform-settings-no-arg:1.2.0")
+
 //            // HTTP клиент
 //            implementation("io.ktor:ktor-client-core:2.3.7")
 //            implementation("io.ktor:ktor-client-content-negotiation:2.3.7")

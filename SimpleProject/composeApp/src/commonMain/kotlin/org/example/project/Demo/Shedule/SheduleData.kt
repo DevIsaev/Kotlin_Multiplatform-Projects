@@ -3,7 +3,6 @@ package org.example.project.Demo.Shedule
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
-// Пул предметов
 private val subjects = listOf(
     Triple("Технологии программирования", "361 аудитория", "Лабораторный корпус"),
     Triple("Математический анализ", "214 аудитория", "Главный корпус"),
@@ -32,24 +31,31 @@ private val lessonTypes = listOf(
     LessonType.LAB,
 )
 
+// Пул мероприятий для генерации
+private val sampleEvents = listOf(
+    Event("10:00", "12:00", "Студенческая конференция", "Актовый зал"),
+    Event("14:00", "15:30", "Встреча с куратором", "Каб. 305"),
+    Event("12:00", "13:00", "День открытых дверей", "Главный корпус"),
+    Event("16:00", "17:30", "Спортивные соревнования", "Спортзал"),
+    Event("09:00", "10:00", "Общее собрание", "Аудитория 101"),
+)
+
 private fun randomLesson(start: String, end: String): Lesson {
-    // ~20% шанс на свободную пару
     if ((0..4).random() == 0) {
         return Lesson(start, end, null, LessonType.FREE)
     }
     val subj = subjects.random()
     return Lesson(
         startTime = start,
-        endTime = end,
-        subject = subj.first,
-        type = lessonTypes.random(),
-        auditory = subj.second,
-        building = subj.third
+        endTime   = end,
+        subject   = subj.first,
+        type      = lessonTypes.random(),
+        auditory  = subj.second,
+        building  = subj.third
     )
 }
 
 private fun randomDayLessons(): List<Lesson> {
-    // 1-4 пары в день, берём случайные слоты по порядку
     val count = (1..4).random()
     return timeSlots
         .shuffled()
@@ -58,28 +64,32 @@ private fun randomDayLessons(): List<Lesson> {
         .map { (start, end) -> randomLesson(start, end) }
 }
 
+// ~25% дней имеют мероприятие
+private fun randomEvents(): List<Event> {
+    return if ((0..3).random() == 0) listOf(sampleEvents.random())
+    else emptyList()
+}
+
 fun generateDays(startDate: LocalDate, count: Int): List<DaySchedule> {
     return (0 until count).map { offset ->
         val date = startDate.plus(offset, kotlinx.datetime.DateTimeUnit.DAY)
-        // Воскресенье — выходной (dayOfWeek: 1=Mon..7=Sun)
-        val lessons = if (date.dayOfWeek.ordinal == 6) emptyList()
-        else randomDayLessons()
-        DaySchedule(date = date, lessons = lessons)
+        val isWeekend = date.dayOfWeek.ordinal == 6
+        DaySchedule(
+            date    = date,
+            lessons = if (isWeekend) emptyList() else randomDayLessons(),
+            events  = if (isWeekend) emptyList() else randomEvents() // НОВОЕ
+        )
     }
 }
-
-// ─── V1: расписание на месяц (31 день) ───────────────────────────────────────
 
 val monthSchedule = WeekSchedule(
     groupName = "Группа 210а",
     even = generateDays(LocalDate(2026, 1, 1), 31),
-    odd  = emptyList()   // V1 использует только even
+    odd  = emptyList()
 )
-
-// ─── V2: чётная и нечётная неделя (по 7 дней) ────────────────────────────────
 
 val weekScheduleV2 = WeekSchedule(
     groupName = "Группа 210а",
-    even = generateDays(LocalDate(2026, 1, 5), 7),  // чётная неделя
-    odd  = generateDays(LocalDate(2026, 1, 12), 7)  // нечётная неделя
+    even = generateDays(LocalDate(2026, 1, 5), 7),
+    odd  = generateDays(LocalDate(2026, 1, 12), 7)
 )

@@ -3,16 +3,19 @@ package org.example.project.Demo.Shedule
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,9 +64,10 @@ fun ScheduleV1(schedule: WeekSchedule) {
                 itemsIndexed(days) { index, day ->
                     val isSelected = index == selectedIndex
                     DayChip(
-                        dayShort = shortDayNames[day.date.dayOfWeek.ordinal],
+                        dayShort  = shortDayNames[day.date.dayOfWeek.ordinal],
                         dayNumber = day.date.dayOfMonth.toString(),
                         isSelected = isSelected,
+                        hasEvents  = day.events.isNotEmpty(),
                         onClick = { selectedIndex = index }
                     )
                 }
@@ -91,6 +95,11 @@ fun ScheduleV1(schedule: WeekSchedule) {
                 } else {
                     item { LessonsGroup(lessons = sel.lessons) }
                 }
+
+                if (sel.events.isNotEmpty()) {
+                    item { EventsSectionHeader() }
+                    item { EventsGroup(events = sel.events) }
+                }
                 item { Spacer(Modifier.height(16.dp)) }
             }
         }
@@ -102,28 +111,43 @@ private fun DayChip(
     dayShort: String,
     dayNumber: String,
     isSelected: Boolean,
+    hasEvents: Boolean = false,
     onClick: () -> Unit
 ) {
     val colors = scheduleColors()
     val bgColor = if (isSelected) colors.accentOrange else Blue
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(bgColor, RoundedCornerShape(10.dp))
-            .clickable { onClick() }
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-    ) {
-        Text(
-            text = dayShort,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = dayNumber,
-            color = Color.White,
-            fontSize = 12.sp
-        )
+    // Box с точкой поверх чипа
+    Box {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .background(bgColor, RoundedCornerShape(10.dp))
+                .clickable { onClick() }
+                .padding(horizontal = 10.dp, vertical = 8.dp)
+        ) {
+            Text(
+                text = dayShort,
+                color = Color.White,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = dayNumber,
+                color = Color.White,
+                fontSize = 12.sp
+            )
+        }
+
+        // Красная точка — индикатор мероприятия
+        if (hasEvents) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 2.dp, end = 2.dp)
+                    .size(7.dp)
+                    .background(Color(0xFFE53935), CircleShape)
+            )
+        }
     }
 }

@@ -15,14 +15,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.example.project.AppSettings.useWeekSchedule
 
 @Composable
 fun demoSettings(
-    userName    : String = "Иванов Иван Иванович",
-    userInitial : Char   = 'И',
-    darkTheme   : Boolean,
-    onThemeChange: (Boolean) -> Unit,
-    onLogout    : () -> Unit = {},
+    userName         : String  = "Иванов Иван Иванович",
+    userInitial      : Char    = 'И',
+    darkTheme        : Boolean,
+    onThemeChange    : (Boolean) -> Unit,
+    useWeekSchedule  : Boolean,
+    onScheduleToggle : (Boolean) -> Unit,
+    onLogout         : () -> Unit = {},
 ) {
 
     var notificationsEnabled by remember { mutableStateOf(false) }
@@ -39,11 +42,13 @@ fun demoSettings(
         Spacer(Modifier.height(8.dp))
 
         SettingsOptionsCard(
-            notificationsEnabled   = notificationsEnabled,
-            onNotificationsToggle  = { notificationsEnabled = it },
-            darkTheme              = darkTheme,
-            onDarkThemeToggle      = onThemeChange,
-            onLogout               = onLogout,
+            notificationsEnabled  = notificationsEnabled,
+            onNotificationsToggle = { notificationsEnabled = it },
+            darkTheme             = darkTheme,
+            onDarkThemeToggle     = onThemeChange,
+            useWeekSchedule       = useWeekSchedule,
+            onScheduleToggle      = onScheduleToggle,
+            onLogout              = onLogout,
         )
     }
 }

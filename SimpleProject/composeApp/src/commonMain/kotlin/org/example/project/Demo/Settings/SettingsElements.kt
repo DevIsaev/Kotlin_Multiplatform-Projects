@@ -89,6 +89,8 @@ fun SettingsOptionsCard(
     onNotificationsToggle : (Boolean) -> Unit,
     darkTheme             : Boolean,
     onDarkThemeToggle     : (Boolean) -> Unit,
+    useWeekSchedule       : Boolean,
+    onScheduleToggle      : (Boolean) -> Unit,
     onLogout              : () -> Unit,
 ) {
     Card(
@@ -107,6 +109,12 @@ fun SettingsOptionsCard(
                 label           = "Темная тема",
                 checked         = darkTheme,
                 onCheckedChange = onDarkThemeToggle
+            )
+            SettingsDivider()
+            SettingsToggleRow(
+                label           = "Недельное расписание",
+                checked         = useWeekSchedule,
+                onCheckedChange = onScheduleToggle
             )
             SettingsDivider()
             SettingsNavigationRow(

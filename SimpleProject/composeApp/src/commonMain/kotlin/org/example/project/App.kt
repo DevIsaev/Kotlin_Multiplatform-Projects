@@ -12,14 +12,17 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun App() {
-      var darkTheme by rememberSaveable { mutableStateOf(false) }
+      var darkTheme by rememberSaveable { mutableStateOf(AppSettings.darkTheme) }
 
       AppThemeDemo(
             darkTheme = darkTheme
       ) {
             DemoScreen(
                   darkTheme = darkTheme,
-                  onThemeChange = { darkTheme = it }
+                  onThemeChange = { newValue ->
+                        darkTheme = newValue
+                        AppSettings.darkTheme = newValue
+                  }
             )
       }
 }

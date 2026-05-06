@@ -63,6 +63,11 @@ fun ScheduleV2(schedule: WeekSchedule) {
                     } else {
                         LessonsGroup(lessons = day.lessons)
                     }
+
+                    if (day.events.isNotEmpty()) {
+                        EventsSectionHeader()
+                        EventsGroup(events = day.events)
+                    }
                 }
                 item { Spacer(Modifier.height(16.dp)) }
             }

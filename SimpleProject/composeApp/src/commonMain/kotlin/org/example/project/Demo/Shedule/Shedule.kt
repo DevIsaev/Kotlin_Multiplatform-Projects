@@ -24,11 +24,20 @@ data class Lesson(
 
 data class DaySchedule(
     val date: LocalDate,
-    val lessons: List<Lesson>
+    val lessons: List<Lesson>,
+    val events: List<Event> = emptyList()
 )
 
 data class WeekSchedule(
     val groupName: String,
     val even: List<DaySchedule>,
     val odd: List<DaySchedule>
+)
+
+// Мероприятие
+data class Event(
+    val startTime: String,       // "14:10"
+    val endTime: String,         // "15:35"
+    val title: String,           // "Название мероприятия"
+    val location: String? = null // "Где проводиться?"
 )

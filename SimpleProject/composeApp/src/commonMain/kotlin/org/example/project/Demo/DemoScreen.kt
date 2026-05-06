@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDate
+import org.example.project.AppSettings
 import org.example.project.Demo.Buttons_and_Elements.SmoothBottomNavBar
 import org.example.project.Demo.Buttons_and_Elements.SmoothBottomNavItem
 import org.example.project.Demo.Buttons_and_Elements.buttonDemo
@@ -30,6 +31,8 @@ import org.example.project.Screens.HTMLparser.HTMLparser
 fun DemoScreen(
     darkTheme: Boolean,
     onThemeChange: (Boolean) -> Unit) {
+
+    var useWeekSchedule by rememberSaveable { mutableStateOf(AppSettings.useWeekSchedule) }
 
     val smothbottomElements = listOf(
         SmoothBottomNavItem(
@@ -98,11 +101,16 @@ fun DemoScreen(
                 when (currentRoute) {
                     "Buttons" -> buttonDemo()
                     "Settings" -> demoSettings(
-                        darkTheme = darkTheme,
-                        onThemeChange = onThemeChange
+                        darkTheme         = darkTheme,
+                        onThemeChange     = onThemeChange,
+                        useWeekSchedule   = useWeekSchedule,
+                        onScheduleToggle  = { newValue ->
+                            useWeekSchedule = newValue
+                            AppSettings.useWeekSchedule = newValue   // сохраняем
+                        }
                     )
                     "News" -> demoNews()
-                    "List" -> demoList(monthSchedule)
+                    "List" -> if (useWeekSchedule) ScheduleV2(weekSchedule) else ScheduleV1(schedule = monthSchedule)
 //                    "Parser" -> HTMLparser()
 //                    "Parser" -> ScheduleV2(weekSchedule)
                     "Parser" -> MapDemo()

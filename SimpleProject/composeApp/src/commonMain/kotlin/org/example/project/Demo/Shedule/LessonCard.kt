@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -197,4 +198,112 @@ fun DayHeader(daySchedule: DaySchedule) {
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(vertical = 12.dp)
     )
+}
+
+
+@Composable
+fun EventCard(
+    event: Event,
+    isFirst: Boolean = false,
+    isLast: Boolean = false,
+    modifier: Modifier = Modifier
+) {
+    // Голубой фон как на макете
+    val eventBg = Color(0xFFB3D9F2)
+    val eventText = Color(0xFF1A3A5C)
+
+    val shape = when {
+        isFirst && isLast -> RoundedCornerShape(12.dp)
+        isFirst           -> RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp,
+            bottomStart = 2.dp, bottomEnd = 2.dp)
+        isLast            -> RoundedCornerShape(topStart = 2.dp, topEnd = 2.dp,
+            bottomStart = 12.dp, bottomEnd = 12.dp)
+        else              -> RoundedCornerShape(2.dp)
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(eventBg, shape)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.width(48.dp)
+            ) {
+                Text(
+                    text = event.startTime,
+                    color = eventText,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = event.endTime,
+                    color = eventText.copy(alpha = 0.7f),
+                    fontSize = 12.sp
+                )
+            }
+
+            Spacer(Modifier.width(8.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = event.title,
+                    color = eventText,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                if (event.location != null) {
+                    Text(
+                        text = event.location,
+                        color = eventText.copy(alpha = 0.7f),
+                        fontSize = 12.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun EventsGroup(events: List<Event>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 3.dp, vertical = 3.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        events.forEachIndexed { index, event ->
+            EventCard(
+                event = event,
+                isFirst = index == 0,
+                isLast  = index == events.lastIndex
+            )
+        }
+    }
+}
+@Composable
+fun EventsSectionHeader() {
+    val colors = scheduleColors()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = "Мероприятия",
+            color = colors.textPrimary,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .size(1.dp)
+                .background(colors.textSecondary.copy(alpha = 0.4f))
+        )
+    }
 }
