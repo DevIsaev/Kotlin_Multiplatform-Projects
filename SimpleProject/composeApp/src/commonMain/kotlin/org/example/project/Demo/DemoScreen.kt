@@ -86,47 +86,42 @@ fun DemoScreen(
 
     var currentRoute by rememberSaveable { mutableStateOf("List") }
 
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        // ОСНОВНОЙ КОНТЕНТ
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
         ) {
-
-            // ОСНОВНОЙ КОНТЕНТ
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 80.dp)
-                    .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top))
-            ) {
-                when (currentRoute) {
-                    "Buttons" -> buttonDemo()
-                    "Settings" -> demoSettings(
-                        darkTheme         = darkTheme,
-                        onThemeChange     = onThemeChange,
-                        useWeekSchedule   = useWeekSchedule,
-                        onScheduleToggle  = { newValue ->
-                            useWeekSchedule = newValue
-                            AppSettings.useWeekSchedule = newValue   // сохраняем
-                        }
-                    )
-                    "News" -> demoNews()
-                    "List" -> if (useWeekSchedule) ScheduleV2(weekSchedule) else ScheduleV1(schedule = monthSchedule)
+            when (currentRoute) {
+                "Buttons" -> buttonDemo()
+                "Settings" -> demoSettings(
+                    darkTheme         = darkTheme,
+                    onThemeChange     = onThemeChange,
+                    useWeekSchedule   = useWeekSchedule,
+                    onScheduleToggle  = { newValue ->
+                        useWeekSchedule = newValue
+                        AppSettings.useWeekSchedule = newValue   // сохраняем
+                    }
+                )
+                "News" -> demoNews()
+                "List" -> if (useWeekSchedule) ScheduleV2(weekSchedule) else ScheduleV1(schedule = monthSchedule)
 //                    "Parser" -> HTMLparser()
 //                    "Parser" -> ScheduleV2(weekSchedule)
-                    "Parser" -> MapDemo()
-                    else -> buttonDemo()
-                }
+                "Parser" -> MapDemo()
+                else -> buttonDemo()
             }
-
-
-            SmoothBottomNavBar(
-                items = smothbottomElements,
-                currentRoute = currentRoute,
-                onItemSelected = { currentRoute = it },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .windowInsetsPadding(WindowInsets.navigationBars)
-//                    .padding(horizontal = 16.dp, vertical = 12.dp) // отступы от краёв
-            )
         }
+
+        SmoothBottomNavBar(
+            items = smothbottomElements,
+            currentRoute = currentRoute,
+            onItemSelected = { currentRoute = it }
+        )
+    }
 }

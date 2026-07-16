@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -131,32 +132,34 @@ fun SmoothBottomNavBar(
     onItemSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .navigationBarsPadding()
-            .shadow(
-                elevation = 20.dp,
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                ambientColor = NavBarBackground.copy(alpha = 0.4f),
-                spotColor = NavBarBackground.copy(alpha = 0.4f)
-            )
-            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .background(NavBarBackground)
-            .padding(horizontal = 8.dp, vertical = 6.dp)
+    androidx.compose.material3.Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(topStart = 36.dp, topEnd = 36.dp),
+        color = NavBarBackground,
+        tonalElevation = 0.dp,
+        shadowElevation = 12.dp
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            items.forEach { item ->
-                SmoothNavItem(
-                    item = item,
-                    isSelected = currentRoute == item.route,
-                    onClick = { onItemSelected(item.route) }
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEach { item ->
+                    SmoothNavItem(
+                        item = item,
+                        isSelected = currentRoute == item.route,
+                        onClick = { onItemSelected(item.route) }
+                    )
+                }
             }
+            // Этот Spacer заставляет Surface расшириться до самого низа экрана,
+            // закрашивая область системной навигации цветом NavBarBackground.
+            Spacer(Modifier.navigationBarsPadding())
         }
     }
 }
