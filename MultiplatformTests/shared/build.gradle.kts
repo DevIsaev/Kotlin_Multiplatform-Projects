@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+
+    alias(libs.plugins.javafxplugin)
 }
 
 kotlin {
@@ -43,7 +45,28 @@ kotlin {
 
             implementation("androidx.compose.animation:animation-graphics:1.7.6") // грузит AVD в Compose
             implementation("androidx.core:core-splashscreen:1.0.1") // системный SplashScreen API (Android 12+)
+
+            implementation("androidx.media3:media3-exoplayer:1.5.0")
+            implementation("androidx.media3:media3-ui:1.5.0") // PlayerView
         }
+
+        val jvmMain by getting {
+            dependencies {
+                val javafxVersion = "21"
+                val osName = System.getProperty("os.name").lowercase()
+                val fxPlatform = when {
+                    osName.contains("win") -> "win"
+                    osName.contains("mac") -> "mac"
+                    else -> "linux"
+                }
+
+                implementation("org.openjfx:javafx-base:$javafxVersion:$fxPlatform")
+                implementation("org.openjfx:javafx-graphics:$javafxVersion:$fxPlatform")
+                implementation("org.openjfx:javafx-media:$javafxVersion:$fxPlatform")
+                implementation("org.openjfx:javafx-swing:$javafxVersion:$fxPlatform")
+            }
+        }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -63,6 +86,11 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+javafx {
+    version = "21"
+    modules("javafx.media", "javafx.swing")
 }
 
 dependencies {

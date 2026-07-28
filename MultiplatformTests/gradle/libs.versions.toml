@@ -15,6 +15,8 @@ kotlin = "2.4.0"
 kotlinx-coroutines = "1.11.0"
 material3 = "1.11.0-alpha07"
 
+javafx-plugin = "0.1.0"
+
 androidx-window = "1.3.0"       # ActivityEmbedding / split screen
 kotlinx-serialization = "1.7.3"
 napier = "2.7.1"                # логирование в общем коде
@@ -63,3 +65,5 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+javafxplugin = { id = "org.openjfx.javafxplugin", version.ref = "javafx-plugin" }

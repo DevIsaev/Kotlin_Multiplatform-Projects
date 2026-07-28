@@ -1,6 +1,7 @@
 package com.example.multiplatformtests.MusicPlayer
 
 import androidx.compose.runtime.Composable
+import com.example.multiplatformtests.MusicPlayer.Control.PlayerViewModel
 
 data class PlayerState(
     val title: String = "Track Name",
@@ -12,8 +13,4 @@ data class PlayerState(
 expect fun getPlatformName(): String
 
 @Composable
-expect fun PlatformMusicPlayer(
-    state: PlayerState,
-    onPlayPause: () -> Unit,
-    onSeek: (Float) -> Unit
-)
+expect fun PlatformMusicPlayer(viewModel: PlayerViewModel)
