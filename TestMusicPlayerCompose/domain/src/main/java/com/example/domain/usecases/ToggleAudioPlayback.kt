@@ -29,13 +29,13 @@ class ToggleAudioPlayback(private var audioPlayer: AudioPlayer, private var isFi
                 var wasOnPause=audio.isOnPause
 
                 if(willPlay&&wasOnPause) {
-                    audioPlayer.play(audio)
+                    audioPlayer.play()
                 }
                     else if (willPlay) {
                         audioPlayer.prepare(audio)
-                        audioPlayer.play(audio)
+                        audioPlayer.play()
                     } else if (willBeOnPause) {
-                        audioPlayer.pause(audio)
+                        audioPlayer.pause()
                     }
                     var track = audio.copy(isPlaying = willPlay, isOnPause = willBeOnPause)
                     currentTrack = track

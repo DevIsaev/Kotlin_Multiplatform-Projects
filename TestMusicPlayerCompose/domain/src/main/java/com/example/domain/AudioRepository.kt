@@ -10,7 +10,7 @@ interface AudioRepository {
     fun getFavouriteAudio(): Flow<List<AudioDomain>>
 
     suspend fun addAudioToDB(audioList: List<AudioDomain>)
-    suspend fun addAudioAlbumsToDB(audioList: List<AudioAlbumDomain>): List<Long>
+    suspend fun addAudioAlbumsToDB(albumList: List<AudioAlbumDomain>): List<Long>
     suspend fun updateAudioInDB(audio: AudioDomain)
     suspend fun deleteAudioInDB(audioList:List<AudioDomain>)
 }
