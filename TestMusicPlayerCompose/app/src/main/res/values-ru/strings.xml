@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MediaPlayer</string>
+    <string name="music_on_device">Музыка на устройстве</string>
+    <string name="permission_warning">Нет доступа к аудио на устройстве</string>
+    <string name="no_tracks_found">Здесь пока нет треков</string>
+    <string name="play_error">Возникла ошибка воспроизведения. Возможно, файл был перемещен или удален</string>
+    <string name="initializing">Идет предварительная загрузка музыки. Если треков много, это может занять несколько минут…</string>
+</resources>

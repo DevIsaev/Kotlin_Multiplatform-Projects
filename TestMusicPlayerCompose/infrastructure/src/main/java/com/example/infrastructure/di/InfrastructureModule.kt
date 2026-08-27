@@ -32,7 +32,13 @@ class InfrastructureModule {
 
     @Provides
     @Singleton
-    fun provideAudioDao(database: MyDB): AudioDao {return database.audioDao}
+    fun provideAudioDao(database: MyDB): AudioDao {return database.audioDao()}
+
+    @Provides
+    @Singleton
+    fun provideExternalStorage(@ApplicationContext context: Context, isFileAvailableByUri: IsFileAvailableByUri): ExternalStorage {
+        return MediaStore(context, isFileAvailableByUri)
+    }
 
     @Provides
     @Singleton

@@ -9,7 +9,7 @@ import com.example.infrastructure.storage.room.entities.AudioEntity
 
 @Database(entities = [AudioEntity::class, AudioAlbumEntity::class], version = 1)
 abstract class MyDB: RoomDatabase() {
-    abstract var audioDao: AudioDao
+    abstract fun audioDao(): AudioDao
     companion object{
         @Volatile
         private var INSTANCE: MyDB?=null

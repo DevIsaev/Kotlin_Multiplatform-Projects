@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">TestMusicPlayerCompose</string>
+    <string name="app_name">MediaPlayer</string>
+    <string name="music_on_device">Music on device</string>
+    <string name="favourites" translatable="false">Favourites</string>
+    <string name="permission_warning">Unable to access audio on the device</string>
+    <string name="no_tracks_found">No tracks found</string>
+    <string name="play_error">An error occurred while playing this audio. It may have been moved</string>
+    <string name="initializing">Music is being preloaded. If there are many tracks, it may take a few minutes…</string>
 </resources>
